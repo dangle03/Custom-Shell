@@ -10,10 +10,14 @@
 #include <limits.h>
 
 char ** tokenize(char * input, const char * delim, const size_t maxTokens);
-int handle_command_if_else(const char ** args);
-void changeDirectory(const char ** args);
+int handle_command_if_else(char ** args);
+void changeDirectory(char ** args);
+void showHelp();
 
-void changeDirectory(const char ** args) {
+void showHelp(){
+    printf("List of options that are currently supported\nls - Prints out contents of current directory\ncd dir - changes the current directory to 'dir'\nexit - exits the program\n");
+}
+void changeDirectory(char ** args) {
     if (args[1] == NULL) {
         // No argument provided, go to the home directory
         char *home = getenv("HOME");
@@ -30,9 +34,10 @@ void changeDirectory(const char ** args) {
     }
 }
 
-int handle_command_if_else(const char** args) {
+int handle_command_if_else(char** args) {
     if (strcmp(args[0], "help") == 0) {
         printf("Showing help menu\n");
+        showHelp();
         return 0;
     } else if (strcmp(args[0], "ls") == 0) {
         printf("Listing items\n");
@@ -45,6 +50,7 @@ int handle_command_if_else(const char** args) {
         return 1;
     } else {
         printf("\nUnknown command: %s\n", args[0]);
+        showHelp();
         return 0;
     }
 }
