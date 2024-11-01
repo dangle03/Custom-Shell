@@ -7,16 +7,36 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
+// #include <limits.h>
 #include <dirent.h>
+#include <fcntl.h>     // For open() and O_CREAT flag
+#include <sys/stat.h>  // For file permissions
+#include <utime.h>
 
 char ** tokenize(char * input, const char * delim, const size_t maxTokens);
 int handle_command_if_else(char ** args);
 void changeDirectory(char ** args);
 void showHelp();
 void listDirectory(const char * path);
+void touch(char * fileName);
+
 void showHelp(){
     printf("List of options that are currently supported\nls - Prints out contents of current directory\ncd dir - changes the current directory to 'dir'\nexit - exits the program\n");
+}
+
+void touch(char * fileName){
+    int fd = open(fileName, O_CREAT | O_RDWR, 0666);
+    if (fd == -1) {
+        perror("touch");
+        return;
+    }
+    close(fd);
+
+    // Update the modification time
+    if (utime(fileName, NULL) == -1) {
+        perror("utime");
+        return;
+    }
 }
 
 void listDirectory(const char * path){
@@ -67,6 +87,12 @@ int handle_command_if_else(char** args) {
      else if (strcmp(args[0], "exit") == 0) {
         printf("Exiting program\n");
         return 1;
+    } else if (strcmp(args[0], "touch") == 0){
+        if (args[1] != NULL) {
+            touch(args[1]);  // Call touchFile with the specified filename
+        } else {
+            printf("touch: missing file operand\n");
+        }
     } else {
         printf("\nUnknown command: %s\n", args[0]);
         showHelp();
