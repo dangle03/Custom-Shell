@@ -83,13 +83,24 @@ int handle_command_if_else(char** args) {
         return 0;
     } else if (strcmp(args[0], "cd") == 0){
         changeDirectory(args);
-    }
-     else if (strcmp(args[0], "exit") == 0) {
+        return 0;
+    } else if (strcmp(args[0], "echo") == 0){
+        if (args[1] != NULL) {
+            int i = 1;
+            while (args[i] != NULL) {
+                printf("%s ", args[i]);  // Print each argument
+                i++;
+            }
+        }
+        puts("");
+        return 0;
+    } else if (strcmp(args[0], "exit") == 0) {
         printf("Exiting program\n");
         return 1;
     } else if (strcmp(args[0], "touch") == 0){
         if (args[1] != NULL) {
             touch(args[1]);  // Call touchFile with the specified filename
+            return 0;
         } else {
             printf("touch: missing file operand\n");
         }
