@@ -10,27 +10,49 @@
 #include <limits.h>
 
 char ** tokenize(char * input, const char * delim, size_t maxTokens);
-int handle_command_if_else(const char* cmd);
+int handle_command_if_else(char** args);
+void changeDirectory(char ** args);
 
-int handle_command_if_else(const char* cmd) {
-    if (strcmp(cmd, "help") == 0) {
+void changeDirectory(char ** args) {
+    if (args[1] == NULL) {
+        // No argument provided, go to the home directory
+        char *home = getenv("HOME");
+        if (home == NULL) {
+            fprintf(stderr, "cd: HOME environment variable not set\n");
+        } else if (chdir(home) != 0) {
+            perror("cd");
+        }
+    } else {
+        // Attempt to change to the specified directory
+        if (chdir(args[1]) != 0) {
+            perror("cd");
+        }
+    }
+}
+
+int handle_command_if_else(char** args) {
+    if (strcmp(args[0], "help") == 0) {
         printf("\nShowing help menu\n");
         return 0;
-    } else if (strcmp(cmd, "ls") == 0) {
+    } else if (strcmp(args[0], "ls") == 0) {
         printf("\nListing items\n");
         return 0;
-    } else if (strcmp(cmd, "exit") == 0) {
+    } else if (strcmp(args[0], "cd") == 0){
+        printf("Changing directory to %s", args[1]);
+        changeDirectory(args);
+    }
+     else if (strcmp(args[0], "exit") == 0) {
         printf("\nExiting program\n");
         return 1;
     } else {
-        printf("\nUnknown command: %s\n", cmd);
+        printf("\nUnknown command: %s\n", args[0]);
         return 0;
     }
 }
 
-char **tokenize(char *input, const char *delim, size_t maxTokens) {
+char ** tokenize(char * input, const char * delim, size_t maxTokens) {
     // Allocate the array of token pointers
-    char **tokens = malloc(sizeof(char *) * maxTokens);
+    char ** tokens = malloc(sizeof(char *) * maxTokens);
     
     if (tokens == NULL) {
         puts("Memory allocation for tokens array failed.");
@@ -38,7 +60,7 @@ char **tokenize(char *input, const char *delim, size_t maxTokens) {
     }
 
     size_t tokenCount = 0;
-    char *input_dupe = strdup(input); // Duplicate input because strtok modifies the string
+    char * input_dupe = strdup(input); // Duplicate input because strtok modifies the string
 
     if (input_dupe == NULL) {
         free(tokens);
@@ -87,7 +109,7 @@ int main(void) {
         char cwd[PATH_MAX]; 
         if (getcwd(cwd, sizeof(cwd)) != NULL) {
             // Get the home directory
-            char *home = getenv("HOME");
+            char * home = getenv("HOME");
 
             // Check if cwd starts with home path
             if (home != NULL && strncmp(cwd, home, strlen(home)) == 0) {
@@ -107,7 +129,7 @@ int main(void) {
             printf("You entered: %s", input);
             char ** tokenizedInput = tokenize(input, " ", MAX_TOKENS);
             if (tokenizedInput != NULL && tokenizedInput[0] != NULL) {
-                debug_exit = handle_command_if_else(tokenizedInput[0]);
+                debug_exit = handle_command_if_else(tokenizedInput);
                 printf("Debug exit status: %d\n", debug_exit);
 
                 // Free each token and the token array
