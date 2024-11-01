@@ -9,7 +9,7 @@
 #include <string.h>
 #include <limits.h>
 
-char ** tokenize(char * input, const char * delim, size_t maxTokens);
+char ** tokenize(char * input, const char * delim, const size_t maxTokens);
 int handle_command_if_else(char** args);
 void changeDirectory(char ** args);
 
@@ -32,17 +32,16 @@ void changeDirectory(char ** args) {
 
 int handle_command_if_else(char** args) {
     if (strcmp(args[0], "help") == 0) {
-        printf("\nShowing help menu\n");
+        printf("Showing help menu\n");
         return 0;
     } else if (strcmp(args[0], "ls") == 0) {
-        printf("\nListing items\n");
+        printf("Listing items\n");
         return 0;
     } else if (strcmp(args[0], "cd") == 0){
-        printf("Changing directory to %s", args[1]);
         changeDirectory(args);
     }
      else if (strcmp(args[0], "exit") == 0) {
-        printf("\nExiting program\n");
+        printf("Exiting program\n");
         return 1;
     } else {
         printf("\nUnknown command: %s\n", args[0]);
@@ -50,7 +49,7 @@ int handle_command_if_else(char** args) {
     }
 }
 
-char ** tokenize(char * input, const char * delim, size_t maxTokens) {
+char ** tokenize(char * input, const char * delim, const size_t maxTokens) {
     // Allocate the array of token pointers
     char ** tokens = malloc(sizeof(char *) * maxTokens);
     
@@ -126,11 +125,11 @@ int main(void) {
             // Remove newline character if it exists
             input[strcspn(input, "\n")] = 0;
 
-            printf("You entered: %s", input);
+            // printf("You entered: %s\n", input);
             char ** tokenizedInput = tokenize(input, " ", MAX_TOKENS);
             if (tokenizedInput != NULL && tokenizedInput[0] != NULL) {
                 debug_exit = handle_command_if_else(tokenizedInput);
-                printf("Debug exit status: %d\n", debug_exit);
+                // printf("Debug exit status: %d\n", debug_exit);
 
                 // Free each token and the token array
                 for (size_t i = 0; i < MAX_TOKENS && tokenizedInput[i] != NULL; i++) {
