@@ -8,14 +8,31 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <dirent.h>
 
 char ** tokenize(char * input, const char * delim, const size_t maxTokens);
 int handle_command_if_else(char ** args);
 void changeDirectory(char ** args);
 void showHelp();
-
+void listDirectory(const char * path);
 void showHelp(){
     printf("List of options that are currently supported\nls - Prints out contents of current directory\ncd dir - changes the current directory to 'dir'\nexit - exits the program\n");
+}
+
+void listDirectory(const char * path){
+    DIR * dir = opendir(path);
+    if (dir == NULL){
+        perror("opendir");
+        return;
+    }
+    struct dirent * entry; // pointer to each entry in the directory
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_name[0] == '.')  // Skip hidden files
+            continue;
+        printf("%s\n", entry->d_name);  // Print file name
+    }
+
+    closedir(dir);
 }
 void changeDirectory(char ** args) {
     if (args[1] == NULL) {
@@ -41,6 +58,8 @@ int handle_command_if_else(char** args) {
         return 0;
     } else if (strcmp(args[0], "ls") == 0) {
         printf("Listing items\n");
+        const char *path = args[1] ? args[1] : ".";  // Use current directory if no argument
+        listDirectory(path);
         return 0;
     } else if (strcmp(args[0], "cd") == 0){
         changeDirectory(args);
