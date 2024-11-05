@@ -32,12 +32,7 @@ The purpose of this shell program is to mimic some of the standard commands in a
 ## Installation
 
 1. Clone the repository or download the code files.
-2. Compile the program using a C compiler:
-   ```bash
-   gcc main.c -o shell
-   ./shell
-   ```
-3. Alternatively, run the pre-compiled executable
+2. run the pre-compiled executable
    ```bash
    ./custom-shell
    ```
