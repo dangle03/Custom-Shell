@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "command_handler.C": "cpp",
+        "utime.h": "c",
+        "command_handler.h": "c"
+    }
+}
