@@ -29,12 +29,27 @@ int handle_command_if_else(char** args) {
                 printf("%s ", args[i]);  // Print each argument
                 i++;
             }
-        }
+        } 
         puts("");
         return 0;
     } else if (strcmp(args[0], "exit") == 0) {
         printf("Exiting program\n");
         return 1;
+    } else if (strcmp(args[0], "grep") == 0) {
+        if (args[1] != NULL && args[2] != NULL) {
+            // args[1] is the search string, args[2] is the file path
+            char **results = grep(args[1], args[2]);
+            if (results != NULL) {
+                for (size_t i = 0; results[i] != NULL; i++) {
+                    printf("%s", results[i]);  // Print each matched line
+                    free(results[i]);         // Free the line after use
+                }
+                free(results);  // Free the array itself
+            }
+        } else {
+            printf("Usage: grep <search_string> <file_path>\n");
+        }
+        return 0;
     } else if (strcmp(args[0], "touch") == 0){
         if (args[1] != NULL) {
             touch(args[1]);  // Call touchFile with the specified filename

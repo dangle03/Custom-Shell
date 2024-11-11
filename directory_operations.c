@@ -21,7 +21,7 @@ void touch(char * fileName){
     if (utime(fileName, NULL) == -1) {
         perror("utime");
         return;
-    }
+    }j
 }
 
 void listDirectory(const char * path){
@@ -54,4 +54,10 @@ void changeDirectory(char ** args) {
             perror("cd");
         }
     }
+}
+
+char ** grep(char * searchString, char *path){
+    char ** returnStrings;
+    
+    
 }
