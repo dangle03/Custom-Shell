@@ -10,7 +10,7 @@
 #include "directory_operations.h"
 
 void touch(char * fileName){
-    int fd = open(fileName, O_CREAT | O_RDWR, 0666);
+    int fd = open(fileName, O_CREAT | O_RDWR, 0666); // Create the file if it doesn't exist, edit it if it does
     if (fd == -1) {
         perror("touch");
         return;

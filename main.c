@@ -6,7 +6,7 @@
 #include "command_handler.h"
 #include "directory_operations.h"
 #include "utility.h"
-
+// #define DEBUG
 
 // Main //
 int main(void) {
@@ -51,12 +51,11 @@ int main(void) {
                 free(tokenizedInput);
             } else puts("Null pointer.");
 
-            
-
-
             #ifdef DEBUG
             debug_exit = 1;  // Set flag to exit loop in debug mode
             #endif
+
+
         } else {
             perror("getcwd() error");  // Print error message if getcwd fails
             break;
@@ -66,3 +65,4 @@ int main(void) {
     free(input);  // Free allocated memory for input
     return 0;
 }
+
