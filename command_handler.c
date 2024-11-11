@@ -59,6 +59,9 @@ int handle_command_if_else(char** args) {
         } else {
             printf("touch: missing file operand\n");
         }
+    } else if (strcmp(args[0], "cat") == 0){
+        cat(args);
+        return 0;
     } else {
         printf("\nUnknown command: %s\n", args[0]);
         showHelp();

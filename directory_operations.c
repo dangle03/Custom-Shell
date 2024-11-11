@@ -10,7 +10,9 @@
 #include "directory_operations.h"
 
 // For reference //
-
+/*args[0] is always the file name (i.e custom-shell)
+args[1] will be the command
+args[2-n] will be additional arguments provided by the user*/
 void touch(char * fileName){
     int fd = open(fileName, O_CREAT | O_RDWR, 0666); // Create the file if it doesn't exist, edit it if it does
     if (fd == -1) {
@@ -62,7 +64,27 @@ char ** grep(char ** args){
     int numFound = 0;
     char **returnStrings = malloc(sizeof(char*));
     
-    FILE * file = fopen(args[3], "r"); 
+    FILE * file = fopen(args[2], "r"); // In this case args[1] will be the pattern, args[2] will be the filename
+    if (file == NULL){
+        perror("error opening file (does it exist?)");
+    }
+    char buffer[256];
+    printf("Contents of the file:\n");
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        printf("%s", buffer); // Print each line
+    
     return returnStrings;
+    }
+}
 
+void cat(char ** args){
+    FILE * file = fopen(args[1], "r"); // In this case args[1] will be the filename
+    if (file == NULL){
+        perror("error opening file (does it exist?)");
+    }
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        printf("%s", buffer); // Print each line
+    }
+    printf("\n");
 }

@@ -1,1 +1,4 @@
 hello there
+this is our sample text file for use with grep or cat
+This is a line
+This is another line
