@@ -10,9 +10,10 @@
 #include "directory_operations.h"
 
 // For reference //
-/*args[0] is always the file name (i.e custom-shell)
-args[1] will be the command
-args[2-n] will be additional arguments provided by the user*/
+/*
+args[0] will be the command
+args[1-n] will be additional arguments provided by the user
+*/
 void touch(char * fileName){
     int fd = open(fileName, O_CREAT | O_RDWR, 0666); // Create the file if it doesn't exist, edit it if it does
     if (fd == -1) {
@@ -81,10 +82,12 @@ void cat(char ** args){
     FILE * file = fopen(args[1], "r"); // In this case args[1] will be the filename
     if (file == NULL){
         perror("error opening file (does it exist?)");
+        return;
     }
     char buffer[256];
     while (fgets(buffer, sizeof(buffer), file) != NULL) {
         printf("%s", buffer); // Print each line
     }
     printf("\n");
+    fclose(file);
 }

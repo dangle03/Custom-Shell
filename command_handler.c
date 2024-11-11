@@ -7,7 +7,14 @@
 #include "utility.h"
 
 void showHelp(){
-    printf("List of options that are currently supported\nls - Prints out contents of current directory\ncd dir - changes the current directory to 'dir'\nexit - exits the program\n");
+    printf("List of options that are currently supported "
+    "\nls - Prints out contents of current directory "
+    "\ncd dir - changes the current directory to 'dir' "
+    "\ncat filename - prints out the text from a file to the terminal " 
+    "\necho text - prints out text to the screen "
+    "\ngrep pattern filename (work in progress) - searches filename for pattern and prints all lines that match"
+    "\ntouch filename - creates a file named filename in the current directory "
+    "\nexit - exits the program\n");
 }
 
 int handle_command_if_else(char** args) {
