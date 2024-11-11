@@ -9,6 +9,8 @@
 #include <utime.h>
 #include "directory_operations.h"
 
+// For reference //
+
 void touch(char * fileName){
     int fd = open(fileName, O_CREAT | O_RDWR, 0666); // Create the file if it doesn't exist, edit it if it does
     if (fd == -1) {
@@ -21,7 +23,7 @@ void touch(char * fileName){
     if (utime(fileName, NULL) == -1) {
         perror("utime");
         return;
-    }j
+    }
 }
 
 void listDirectory(const char * path){
@@ -56,8 +58,11 @@ void changeDirectory(char ** args) {
     }
 }
 
-char ** grep(char * searchString, char *path){
-    char ** returnStrings;
+char ** grep(char ** args){
+    int numFound = 0;
+    char **returnStrings = malloc(sizeof(char*));
     
-    
+    FILE * file = fopen(args[3], "r"); 
+    return returnStrings;
+
 }

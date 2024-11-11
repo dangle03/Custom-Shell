@@ -1,5 +1,6 @@
 // command_handler.c
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "command_handler.h"
 #include "directory_operations.h"
@@ -36,19 +37,20 @@ int handle_command_if_else(char** args) {
         printf("Exiting program\n");
         return 1;
     } else if (strcmp(args[0], "grep") == 0) {
-        if (args[1] != NULL && args[2] != NULL) {
+        char ** test = grep(args);
+        //if (args[1] != NULL && args[2] != NULL) {
             // args[1] is the search string, args[2] is the file path
-            char **results = grep(args[1], args[2]);
-            if (results != NULL) {
-                for (size_t i = 0; results[i] != NULL; i++) {
-                    printf("%s", results[i]);  // Print each matched line
-                    free(results[i]);         // Free the line after use
-                }
-                free(results);  // Free the array itself
-            }
-        } else {
-            printf("Usage: grep <search_string> <file_path>\n");
-        }
+            //char **results = grep(args);
+            //if (results != NULL) {
+                //for (size_t i = 0; results[i] != NULL; i++) {
+                    //printf("%s", results[i]);  // Print each matched line
+                    //free(results[i]);         // Free the line after use
+                //}
+                //free(results);  // Free the array itself
+            //}
+        //} else {
+           // printf("Usage: grep <search_string> <file_path>\n");
+        //}
         return 0;
     } else if (strcmp(args[0], "touch") == 0){
         if (args[1] != NULL) {
